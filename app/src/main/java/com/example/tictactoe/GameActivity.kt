@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.tictactoe.databinding.ActivityGameBinding
-import com.example.tictactoe.databinding.ActivityMainBinding
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -26,6 +25,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        GameData.fetchGameModel()
 
         binding.btn0.setOnClickListener(this)
         binding.btn1.setOnClickListener(this)
@@ -73,10 +74,20 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     GameStatus.INPROGRESS -> {
                         binding.startGameBtn.visibility = View.INVISIBLE
-                        currentPlayer + "Turn"
+
+                        when(GameData.miID){
+                            currentPlayer -> "Your turn!"
+                            else -> currentPlayer + " Turn"
+                        }
                     }
                     GameStatus.FINISHED -> {
-                        if(winner.isNotEmpty()) winner + " Player Won!"
+                        if(winner.isNotEmpty()) {
+                            when(GameData.miID){
+                                winner -> "You Won!"
+                                else -> winner + " Player Won!"
+                            }
+
+                        }
                         else "Draw"
                     }
                 }
@@ -136,6 +147,10 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 return
             }
             //Game
+            if(gameId != "-1" && currentPlayer != GameData.miID){
+                Toast.makeText(applicationContext, "Not your turn!", Toast.LENGTH_SHORT).show()
+                return
+            }
             val clickedPos = (v?.tag as String).toInt()
             if(filledPos[clickedPos].isEmpty()){
                 filledPos[clickedPos] = currentPlayer

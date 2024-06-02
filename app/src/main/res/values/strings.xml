@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TicTacToe</string>
+    <string name="PlayOffline">Play Offline</string>
+    <string name="or">or</string>
+    <string name="CreateGame">Create Game</string>
+    <string name="EnterGameId">Enter Game ID</string>
+    <string name="JoinGame">Join Game</string>
+
+
 </resources>
